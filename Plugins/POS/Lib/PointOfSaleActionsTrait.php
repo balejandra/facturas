@@ -58,7 +58,7 @@ trait PointOfSaleActionsTrait
         $document = new OperacionPausada();
         $document->loadFromCode($code);
 
-        $document->codigo = null;
+       // $document->codigo = null;
         $document->fecha = date($document::DATE_STYLE);
         $document->hora = date($document::HOUR_STYLE);
 

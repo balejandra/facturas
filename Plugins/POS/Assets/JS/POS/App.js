@@ -24,14 +24,16 @@ async function orderDeleteAction(data) {
  */
 async function orderPrintAction({code}) {
     View.main().showticketImpresion(await Order.reprintRequest(code));
-    //View.modals().lastOrdersModal().hide();
+    View.modals().lastOrdersModal().hide();
 }
 
 /**
  * @param {{code:string}} data
  */
 async function pausedOrderPrintAction({code}) {
-    await Order.reprintPausedOrderRequest(code);
+    View.main().showticketImpresion(
+			await Order.reprintPausedOrderRequest(code)
+		);
     View.modals().pausedOrdersModal().hide();
 }
 

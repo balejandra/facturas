@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of POS plugin for FacturaScripts
  * Copyright (C) 2022 Juan José Prieto Dzul <juanjoseprieto88@gmail.com>
@@ -91,7 +92,7 @@ class POS extends Controller
 
             case 'save-order':
                 $this->saveOrder();
-               // $this->buildResponse();
+                // $this->buildResponse();
                 return false;
 
             case 'get-orders-on-hold':
@@ -334,9 +335,9 @@ class POS extends Controller
 
         if ($code) {
             $document = self::getPausedDocument($code);
-            $this->printVoucher($document, []);
-
-            $this->buildResponse();
+            $voucher = $this->printVoucher($document, []);
+            $this->setResponse($voucher);
+            //$this->buildResponse();
         }
     }
 
@@ -415,7 +416,7 @@ class POS extends Controller
 
         $this->getSession()->savePayments($document, $transaction->getPayments());
         $this->pipe('save', $document, $transaction->getPayments());
-        $voucher=$this->printVoucher($document, $transaction->getPayments());
+        $voucher = $this->printVoucher($document, $transaction->getPayments());
         $this->setResponse($voucher);
     }
 

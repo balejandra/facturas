@@ -204,19 +204,6 @@ class SalesTicket extends AbstractTicketBuilder
         }
         $data['footerCustomLines'] = $footerLines;
         $lineData = [];
-        if (self::PRICE_NO_PRICE === $this->formato->formato_precio) {
-            $counter = 0;
-            foreach ($this->document->getLines() as $line) {
-                $lineData = [
-                    'referencia' => $line->referencia,
-                    'descripcion' => $line->descripcion,
-                    'cantidad' => $line->cantidad,
-                ];
-                $counter += $line->cantidad;
-                $data['lines'][] = $lineData;
-            }
-            $data['totalArticulos'] = $counter;
-        } else {
             $counter = 0;
             foreach ($this->document->getLines() as $line) {
                 $printablePrice = 0;
@@ -240,7 +227,7 @@ class SalesTicket extends AbstractTicketBuilder
                 $data['lines'][] = $lineData;
             }
             $data['totalArticulos'] = $counter;
-        }
+        
         $this->printer->getBuffer();
         return $data;
     }

@@ -176,19 +176,24 @@ class Main {
 		console.log(data);
 
 		templates().renderticketimpresion({ items: data });
-		// Obtener el contenido del div que deseas imprimir
-		/*let contenidoDiv = document.getElementById("ticket").innerHTML;
+			// Obtener el contenido del div que deseas imprimir
+		let contenidoDiv = document.getElementById("ticketPrint").innerHTML;
 
 		// Abrir la ventana de impresión y escribir el contenido del div en ella
-		let ventanaImpresion = window.open("", "_blank");
+		let ventanaImpresion = window.open("", "blank");
 		ventanaImpresion.document.write(
-			"<html><body>" + contenidoDiv + "</body></html>"
+			"<html><head>" +
+				"<style>" +
+				".ticket,.printer-ticket{font-family:Tahoma,Geneva,sans-serif;font-size:12px;}.linea-divisora{border-bottom:1px solid black;padding-bottom:10px;}.centrado{text-align:center;align-content:center;}.text-center{text-align:center;}.printer-ticket{display:table !important;width:100%;font-weight:light;line-height:1.3em;}.printer-ticket,.printer-ticket *{background-color:#fff;}.printer-ticket th:nth-child(1),.printer-ticket td:nth-child(1){width:50px;}.printer-ticket th:nth-child(3){width:90px;}.printer-ticket td:nth-child(3),.printer-ticket td:nth-child(4){width:90px;text-align:right;}.printer-ticket th{font-weight:inherit;padding:10px 0;text-align:center;border-bottom:1px dashed #BCBCBC;}.printer-ticket tbody tr:last-child td{padding-bottom:10px;}.printer-ticket tfoot .sup td{padding:10px 0;border-top:1px dashed #BCBCBC;}.printer-ticket tfoot .sup.p--0 td{padding-bottom:0;}.printer-ticket .top td{padding-top:10px;}.printer-ticket .last td{padding-bottom:10px;}" +
+				"</style></head><body>" +
+				contenidoDiv +
+				"</body></html > "
 		);
 
 		// Imprimir la ventana de impresión
 		ventanaImpresion.print();
 		ventanaImpresion.close();
-		modals().ticketImpresionModal().hide();*/
+		modals().ticketImpresionModal().hide();
 	};
 	showPausedOrdersModal = function (data) {
 		modals().pausedOrdersModal().show();
