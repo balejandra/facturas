@@ -57,8 +57,9 @@ async function orderResumeAction({code}) {
 
 async function orderSaveAction() {
     if (Cart.lines.length < 1) return;
-
-    Cart.update(await Order.saveRequest(Cart, Checkout.payments));
+    let ticket = await Order.saveRequest(Cart, Checkout.payments);
+    Cart.update(ticket);
+    View.main().showticketImpresion(ticket);
     Checkout.clear();
 
     Cart.setDocumentType(AppSettings.document.code, AppSettings.document.serie)

@@ -91,7 +91,7 @@ class POS extends Controller
 
             case 'save-order':
                 $this->saveOrder();
-                $this->buildResponse();
+               // $this->buildResponse();
                 return false;
 
             case 'get-orders-on-hold':
@@ -415,7 +415,8 @@ class POS extends Controller
 
         $this->getSession()->savePayments($document, $transaction->getPayments());
         $this->pipe('save', $document, $transaction->getPayments());
-        $this->printVoucher($document, $transaction->getPayments());
+        $voucher=$this->printVoucher($document, $transaction->getPayments());
+        $this->setResponse($voucher);
     }
 
     /**
