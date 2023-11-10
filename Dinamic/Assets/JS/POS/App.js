@@ -23,8 +23,8 @@ async function orderDeleteAction(data) {
  * @param {{code:string}} data
  */
 async function orderPrintAction({code}) {
-    await Order.reprintRequest(code);
-    View.modals().lastOrdersModal().hide();
+    View.main().showticketImpresion(await Order.reprintRequest(code));
+    //View.modals().lastOrdersModal().hide();
 }
 
 /**

@@ -109,6 +109,11 @@ abstract class AbstractTicketBuilder
     abstract public function getResult(): string;
 
     /**
+     * @return array
+     */
+    abstract public function getDataAsArray(): array;
+    
+    /**
      *  Get custom lines for the given ticket type and  position
      *
      * @param string $position

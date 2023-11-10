@@ -171,6 +171,81 @@ class SalesTicket extends AbstractTicketBuilder
     }
 
     /**
+     * @return array
+     */
+    public function getDataAsArray(): array
+    {
+        $company = $this->document->getCompany();
+        $data = [
+            'nombrecorto' => $company->nombrecorto,
+            'direccion' => $company->direccion,
+            'telefono1' => $company->telefono1,
+            'cifnif' => $company->cifnif,
+            'codigo' => $this->document->codigo,
+            'fechacompleta' => $this->document->fecha . ' ' . $this->document->hora,
+            'cliente' => $this->document->nombrecliente,
+            'neto' => $this->document->neto,
+            'totaliva' => $this->document->totaliva,
+            'total' => $this->document->total,
+            'formato_precio' => $this->formato->formato_precio,
+            'anchoFormato' => $this->formato->ancho,
+            'lines' => [],
+        ];
+        $headerLines = [];
+        foreach ($this->getCustomLines('header') as $line) {
+            $headerLines[] = $line;
+        }
+
+        $data['headerCustomLines'] = $headerLines;
+
+        $footerLines = [];
+        foreach ($this->getCustomLines('footer') as $line) {
+            $footerLines[] = $line;
+        }
+        $data['footerCustomLines'] = $footerLines;
+        $lineData = [];
+        if (self::PRICE_NO_PRICE === $this->formato->formato_precio) {
+            $counter = 0;
+            foreach ($this->document->getLines() as $line) {
+                $lineData = [
+                    'referencia' => $line->referencia,
+                    'descripcion' => $line->descripcion,
+                    'cantidad' => $line->cantidad,
+                ];
+                $counter += $line->cantidad;
+                $data['lines'][] = $lineData;
+            }
+            $data['totalArticulos'] = $counter;
+        } else {
+            $counter = 0;
+            foreach ($this->document->getLines() as $line) {
+                $printablePrice = 0;
+                if (self::PRICE_AFTER_TAX === $this->formato->formato_precio) {
+                    $printablePrice = $this->getPriceWithTax($line);
+                } else {
+                    $printablePrice = $line->pvpunitario;
+                }
+
+                $unitarioTotal = $printablePrice * $line->cantidad;
+
+                $lineData = [
+                    'referencia' => $line->referencia,
+                    'descripcion' => $line->descripcion,
+                    'cantidad' => $line->cantidad,
+                    'pvpunitario' => $printablePrice,
+                    'totalunitario' => $unitarioTotal
+
+                ];
+                $counter += $line->cantidad;
+                $data['lines'][] = $lineData;
+            }
+            $data['totalArticulos'] = $counter;
+        }
+        $this->printer->getBuffer();
+        return $data;
+    }
+
+    /**
      * @return string
      */
     public function getResult(): string

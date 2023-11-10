@@ -133,56 +133,75 @@ const mainElements = {
 }
 
 class Main {
-    customerNameLabel = () => mainElements['customerNameLabel'];
-    customerSearchBox = () => mainElements['customerSearchBox'];
-    cashMovmentForm = () => mainElements['cashMovmentForm'];
-    closeSessionForm = () => mainElements['closeSessionForm'];
-    productSearchBox = () => mainElements['productSearchBox'];
-    newCustomerSaveButton = () => mainElements['newCustomerSaveButton'];
-    updateCustomerNameLabel = (name = '') => {
-        mainElements['customerNameLabel'].textContent = name;
-    };
-    updateDocumentNameLabel = (name = '') => {
-        mainElements['documentNamelLabel'].textContent = name;
-    };
-    updateCustomerListView = (data = []) => {
-        templates().renderCustomerList({items: data});
-    };
-    updateLastOrdersList = (data = []) => {
-        templates().renderLastOrderList({items: data});
-    };
-    updatePausedOrdersList = (data = []) => {
-        templates().renderPausedOrderList({items: data});
-    };
-    updateProductFamilyList = (data = []) => {
-        templates().renderProductFamilyList({items: data});
-    };
-    updateProductSearchResult = (data = []) => {
-        templates().renderProductSearchList({items: data});
-    };
-    updateView = ({doc}) => {
-        const documentFields = mainElements['documentFieldList'];
+	customerNameLabel = () => mainElements["customerNameLabel"];
+	customerSearchBox = () => mainElements["customerSearchBox"];
+	cashMovmentForm = () => mainElements["cashMovmentForm"];
+	closeSessionForm = () => mainElements["closeSessionForm"];
+	productSearchBox = () => mainElements["productSearchBox"];
+	newCustomerSaveButton = () => mainElements["newCustomerSaveButton"];
+	updateCustomerNameLabel = (name = "") => {
+		mainElements["customerNameLabel"].textContent = name;
+	};
+	updateDocumentNameLabel = (name = "") => {
+		mainElements["documentNamelLabel"].textContent = name;
+	};
+	updateCustomerListView = (data = []) => {
+		templates().renderCustomerList({ items: data });
+	};
+	updateLastOrdersList = (data = []) => {
+		templates().renderLastOrderList({ items: data });
+	};
+	updatePausedOrdersList = (data = []) => {
+		templates().renderPausedOrderList({ items: data });
+	};
+	updateProductFamilyList = (data = []) => {
+		templates().renderProductFamilyList({ items: data });
+	};
+	updateProductSearchResult = (data = []) => {
+		templates().renderProductSearchList({ items: data });
+	};
+	updateView = ({ doc }) => {
+		const documentFields = mainElements["documentFieldList"];
 
-        for (let i = 0; i < documentFields.length; i++) {
-            updateDocumentFieldValue(doc, documentFields[i])
-        }
-    };
-    showLastOrdersModal = function (data) {
-        modals().lastOrdersModal().show();
-        templates().renderLastOrderList({items: data});
-    }
-    showPausedOrdersModal = function (data) {
-        modals().pausedOrdersModal().show();
-        templates().renderPausedOrderList({items: data});
-    }
-    showProductImagesModal = function (data) {
-        modals().productImagesModal().show();
-        templates().renderProductImageList({items: data});
-    }
-    showProductStockDetailModal = function (data) {
-        modals().stockDetailModal().show();
-        templates().renderProductStockList({items: data});
-    }
+		for (let i = 0; i < documentFields.length; i++) {
+			updateDocumentFieldValue(doc, documentFields[i]);
+		}
+	};
+	showLastOrdersModal = function (data) {
+		modals().lastOrdersModal().show();
+		templates().renderLastOrderList({ items: data });
+	};
+	showticketImpresion = function (data) {
+		modals().ticketImpresionModal().show();
+		console.log(data);
+
+		templates().renderticketimpresion({ items: data });
+		// Obtener el contenido del div que deseas imprimir
+		/*let contenidoDiv = document.getElementById("ticket").innerHTML;
+
+		// Abrir la ventana de impresión y escribir el contenido del div en ella
+		let ventanaImpresion = window.open("", "_blank");
+		ventanaImpresion.document.write(
+			"<html><body>" + contenidoDiv + "</body></html>"
+		);
+
+		// Imprimir la ventana de impresión
+		ventanaImpresion.print();
+		ventanaImpresion.close();
+		modals().ticketImpresionModal().hide();*/
+	};
+	showPausedOrdersModal = function (data) {
+		modals().pausedOrdersModal().show();
+		templates().renderPausedOrderList({ items: data });
+	};
+	showProductImagesModal = function (data) {
+		modals().productImagesModal().show();
+		templates().renderProductImageList({ items: data });
+	};
+	showProductStockDetailModal = function (data) {
+		modals().stockDetailModal().show();
+		templates().renderProductStockList({ items: data });
+	};
 }
 
 /**

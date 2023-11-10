@@ -319,9 +319,9 @@ class POS extends Controller
 
         if ($code) {
             $order = self::getOrder($code);
-            $this->printVoucher($order->getDocument(), []);
-
-            $this->buildResponse();
+            $voucher = $this->printVoucher($order->getDocument(), []);
+            $this->setResponse($voucher);
+            //$this->buildResponse();
         }
     }
 

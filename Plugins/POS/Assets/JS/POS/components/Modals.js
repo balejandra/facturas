@@ -5,20 +5,21 @@ const backdrop = new BackDropElement();
 let instance;
 
 let modals = {
-    closeSession: new ModalElement('closeSessionModal'),
-    customerSearch: new ModalElement('customerSearchModal'),
-    documentType: new ModalElement('documentTypeModal'),
+	closeSession: new ModalElement("closeSessionModal"),
+	customerSearch: new ModalElement("customerSearchModal"),
+	documentType: new ModalElement("documentTypeModal"),
 
-    holdOrders: new ModalElement('holdOrdersModal'),
-    lastOrders: new ModalElement('lastOrdersModal'),
+	holdOrders: new ModalElement("holdOrdersModal"),
+	lastOrders: new ModalElement("lastOrdersModal"),
+    ticketImpresion: new ModalElement("ticketImpresionModal"),
 
-    paymentDetail: new ModalElement('paymentModal'),
+	paymentDetail: new ModalElement("paymentModal"),
 
-    productEdit: new ModalElement('productEditModal'),
-    productImages: new ModalElement('productImagesModal'),
-    productQuantityEdit: new ModalElement('productQuantityEditModal'),
-    productStockDetail: new ModalElement('stockDetailModal'),
-}
+	productEdit: new ModalElement("productEditModal"),
+	productImages: new ModalElement("productImagesModal"),
+	productQuantityEdit: new ModalElement("productQuantityEditModal"),
+	productStockDetail: new ModalElement("stockDetailModal"),
+};
 
 function BackDropElement() {
     this.element = document.createElement('div');
@@ -57,42 +58,43 @@ ModalElement.prototype.hide = function () {
 }
 
 class Modals {
-    constructor() {
-        if (instance) throw new Error("New instance cannot be created!!");
+	constructor() {
+		if (instance) throw new Error("New instance cannot be created!!");
 
-        instance = this;
-    }
+		instance = this;
+	}
 
-    backdrop() {
-        return backdrop;
-    }
+	backdrop() {
+		return backdrop;
+	}
 
-    /**
-     * @param {HTMLElement} element
-     */
-    toggleModal = element => {
-        if (!element) return;
+	/**
+	 * @param {HTMLElement} element
+	 */
+	toggleModal = (element) => {
+		if (!element) return;
 
-        element.classList.toggle("flex");
+		element.classList.toggle("flex");
 
-        if (element.classList.toggle("hidden")) {
-            backdrop.hide();
-            return;
-        }
+		if (element.classList.toggle("hidden")) {
+			backdrop.hide();
+			return;
+		}
 
-        backdrop.show();
-    };
+		backdrop.show();
+	};
 
-    documentTypeModal = () => modals['documentType'];
-    closeSessionModal = () => modals['closeSession'];
-    customerSearchModal = () => modals['customerSearch'];
-    lastOrdersModal = () => modals['lastOrders'];
-    pausedOrdersModal = () => modals['holdOrders'];
-    stockDetailModal = () => modals['productStockDetail'];
-    paymentModal = () => modals['paymentDetail'];
-    productEditModal = () => modals['productEdit'];
-    productImagesModal = () => modals['productImages'];
-    productQuantityEditModal = () => modals['productQuantityEdit'];
+	documentTypeModal = () => modals["documentType"];
+	closeSessionModal = () => modals["closeSession"];
+	customerSearchModal = () => modals["customerSearch"];
+	lastOrdersModal = () => modals["lastOrders"];
+	ticketImpresionModal = () => modals["ticketImpresion"];
+	pausedOrdersModal = () => modals["holdOrders"];
+	stockDetailModal = () => modals["productStockDetail"];
+	paymentModal = () => modals["paymentDetail"];
+	productEditModal = () => modals["productEdit"];
+	productImagesModal = () => modals["productImages"];
+	productQuantityEditModal = () => modals["productQuantityEdit"];
 }
 
 let modalsInstance = Object.freeze(new Modals());
