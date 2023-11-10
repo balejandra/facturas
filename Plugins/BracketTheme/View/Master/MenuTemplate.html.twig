@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ constant('FS_LANG') | slice(0, 2) }}" xml:lang="{{ constant('FS_LANG') | slice(0, 2) }}">
+<head>
+    {% block meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>{{ fsc.title | raw }}</title>
+        <meta name="description" content="{{ i18n.trans('meta-description') }}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="generator" content="FacturaScripts"/>
+        <meta name="robots" content="noindex"/>
+    {% endblock %}
+    {% block icons %}
+        <link rel="shortcut icon" href="{{ asset('Dinamic/Assets/Images/favicon.ico') }}"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('Dinamic/Assets/Images/apple-icon-180x180.png') }}"/>
+    {% endblock %}
+    {% block css %}
+        <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('node_modules/@fortawesome/fontawesome-free/css/all.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('Dinamic/Assets/CSS/bracket.css') }}?v=1"/>
+        <link rel="stylesheet" href="{{ asset('Dinamic/Assets/CSS/custom.css') }}?v=6"/>
+    {% endblock %}
+    {# Adds custom CSS assets #}
+    {% for css in assetManager.get('css') %}
+        <link rel="stylesheet" href="{{ css }}"/>
+    {% endfor %}
+    {% block javascripts %}
+        <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootbox/dist/bootbox.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootbox/dist/bootbox.locales.min.js') }}"></script>
+        <script src="{{ asset('node_modules/pace-js/pace.min.js') }}"></script>
+        <script src="{{ asset('Dinamic/Assets/JS/bracket.js') }}"></script>
+        <script src="{{ asset('Dinamic/Assets/JS/Custom.js') }}?v=6"></script>
+    {% endblock %}
+    {# Adds custom JS assets #}
+    {% for js in assetManager.get('js') %}
+        <script src="{{ js }}"></script>
+    {% endfor %}
+    {{ debugBarRender.renderHead() | raw }}
+</head>
+{% block fullBody %}
+    <body>
+    {% block navbar %}
+        <div class="br-logo"><a href="{{ asset('Dashboard') }}"><span>[</span>{{ fsc.empresa.nombrecorto }}<span>]</span></a></div>
+            <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-y">
+                <div class="br-sideleft-menu">
+                    {% for menuItem in menuManager.getMenu() %}
+                        {{ _self.showMenu(menuItem) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!--  TopBar -->
+        <div class="br-header">
+        {# //buscador y barra inicial #}
+            <div class="br-header-left">
+                <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="fas fa-bars"></i></a></div>
+                <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="fas fa-bars"></i></a></div>
+                <div class="input-group hidden-xs-down wd-800 transition">
+                    <form action="MegaSearch" method="post">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="query" placeholder="{{ i18n.trans('search') }}"/>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn">
+                                    <i class="fas fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {# Datos del usuario  #}
+            <div class="br-header-right">
+                <nav class="nav">
+                    <div class="dropdown">
+                        <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+                            <span class="logged-name hidden-md-down">{{ fsc.user.nick }}</span>
+                            <img src="{{ fsc.user.gravatar() }}" alt="{{ fsc.user.email }}" class="wd-32 rounded-circle">
+                            <span class="square-10 bg-success"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-header wd-200">
+                            <ul class="list-unstyled user-profile-nav">
+                                <li><a href="{{ fsc.user.url() }}"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;Perfil</a></li>
+                                <li><a href="?logout=TRUE"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;{{ i18n.trans('logout') }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+    <div class="br-mainpanel">
+        {% block navbarContent %}
+            {% set pageData = fsc.getPageData() %}
+            <div class="br-pageheader pd-y-15 pd-l-20">
+                <nav class="breadcrumb pd-0 mg-0 tx-12">
+                    <span class="breadcrumb-item">{{ i18n.trans(pageData.menu) }}</span>
+                    <span class="breadcrumb-item active">{{ fsc.title }}</span>
+                </nav>
+            </div>
+        {% endblock %}
+        <div class="pt-3">
+        {% endblock %}
+            {% block messages %}
+                {% from 'Macro/Utils.html.twig' import message as showMessage %}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            {{ showMessage(log, ['error', 'critical'], 'danger') }}
+                            {{ showMessage(log, ['warning'], 'warning') }}
+                            {{ showMessage(log, ['notice'], 'success') }}
+                            {{ showMessage(log, ['info'], 'info') }}
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+            {% block bodyHeaderOptions %}
+            {% endblock %}
+        {% block body %}
+        {% endblock %}
+    </div>
+    {{ debugBarRender.render() | raw }}
+</body>
+{% endblock %}
+
+{% macro showMenu(item) %}
+    {% import _self as macros %}
+    {% set active = item.active ? 'active' : '' %}
+    {% set menuItemClass = item.active ? 'active' : '' %}
+        {% if item.menu is empty %}
+            <a href="{{ item.url }}" class="{{ menuItemClass }} nav-link">
+                <i class="{{ item.icon }} fa-fw" aria-hidden="true"></i> &nbsp;{{ item.title }}
+            </a>
+        {% elseif item.active %}
+            <a href="#sideMenu{{ item.name }}" data-toggle="collapse" aria-expanded="false" class="br-menu-link active show-sub">
+                <div class="br-menu-item">
+                    <span class="fas fa-chevron-down"></span>
+                    <span class="menu-item-label">{{ item.title }}&nbsp;&nbsp;</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div>
+            </a>
+            <ul class="br-menu-sub nav flex-column" >
+                {% for subitem in item.menu %}
+                    <span class="nav-item">{{ _self.showMenu(subitem) }}</span>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <a href="#sideMenu{{ item.name }}" data-toggle="collapse" aria-expanded="false" class="br-menu-link">
+                <div class="br-menu-item">
+                    <span class="fas fa-chevron-right"></span>
+                    <span class="menu-item-label">{{ item.title }}&nbsp;&nbsp;</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div>
+            </a>
+            <ul class="br-menu-sub nav flex-column" id="sideMenu{{ item.name }}">
+                {% for subitem in item.menu %}
+                    <span class="nav-item">{{ _self.showMenu(subitem) }}</span>
+                {% endfor %}
+            </ul>
+        {% endif %}
+{% endmacro %}
+

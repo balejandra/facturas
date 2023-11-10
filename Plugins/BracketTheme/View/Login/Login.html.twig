@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ constant('FS_LANG') | slice(0, 2) }}" xml:lang="{{ constant('FS_LANG') | slice(0, 2) }}">
+<head>
+    {% block meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>{{ fsc.title | raw }}</title>
+        <meta name="description" content="{{ i18n.trans('meta-description') }}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="generator" content="FacturaScripts"/>
+        <meta name="robots" content="noindex"/>
+    {% endblock %}
+    {% block icons %}
+        <link rel="shortcut icon" href="{{ asset('Dinamic/Assets/Images/favicon.ico') }}"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('Dinamic/Assets/Images/apple-icon-180x180.png') }}"/>
+    {% endblock %}
+    {% block css %}
+        <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('node_modules/@fortawesome/fontawesome-free/css/all.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('node_modules/jquery-ui-dist/jquery-ui.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('Dinamic/Assets/CSS/bracket.css') }}?v=1"/>
+    {% endblock %}
+    {# Adds custom CSS assets #}
+    {% for css in assetManager.get('css') %}
+        <link rel="stylesheet" href="{{ css }}"/>
+    {% endfor %}
+    {% block javascripts %}
+        <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('node_modules/popper.js/dist/umd/popper.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootbox/dist/bootbox.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootbox/dist/bootbox.locales.min.js') }}"></script>
+        <script src="{{ asset('node_modules/jquery-ui-dist/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('node_modules/pace-js/pace.min.js') }}"></script>
+        <script src="{{ asset('Dinamic/Assets/JS/bracket.js') }}"></script>
+        <script src="{{ asset('Dinamic/Assets/JS/Custom.js') }}"></script>
+    {% endblock %}
+    {# Adds custom JS assets #}
+    {% for js in assetManager.get('js') %}
+        <script src="{{ js }}"></script>
+    {% endfor %}
+    {{ debugBarRender.renderHead() | raw }}
+</head>
+{% block fullBody %}
+    <body>
+    <div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
+        <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+            <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal">[</span>
+                    {{ fsc.empresa.nombrecorto }}
+                    <span class="tx-normal">]</span>
+            </div>
+        <div class="card mt-4">
+            <a href="{{ asset('') }}">
+                {% set idfile = appSettings.get('default','idloginimage', 0) %}
+                {{ _self.loadLogo(idfile) }}
+            </a>
+            <br>
+        </div>
+        <div>
+            <form action="{{ asset('') }}" method="post" class="form">
+                <div class="form-group">
+                    <input type="text" name="fsNick" class="form-control" maxlength="50" placeholder="{{ i18n.trans('user') }}" required="" autocomplete="off" autofocus=""/>
+                </div><!-- form-group -->
+                <div class="form-group">
+                    <input type="password" name="fsPassword" class="form-control" maxlength="50" placeholder="{{ i18n.trans('password') }}" required="" autocomplete="off"/>
+                </div><!-- form-group -->
+                    <button type="submit" class="btn btn-block btn-primary mb-4">{{ i18n.trans('login') }}</button>
+                </div><!-- login-wrapper -->
+                <div class="mg-t-60 tx-center">
+                    <p>
+                        FacturaScripts es un software libre de contabilidad, facturación y CRM.
+                        No dude en consultar la web oficial o las cuentas de facebook, twitter o youtube.
+                    </p>
+                    <a href="https://facturascripts.com" rel="nofollow" class="btn btn-secondary">
+                        <i class="fas fa-question-circle mr-1"></i> facturascripts.com
+                    </a>
+                    <a href="https://www.facebook.com/facturascripts/" rel="nofollow" class="btn btn-primary"
+                        title="facebook"> <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com/facturascripts" rel="nofollow" class="btn btn-info"
+                        title="twitter"> <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCtsptMQYpW2wJZkvak6NYng" rel="nofollow"
+                        class="btn btn-danger" title="youtube"> <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+{% endblock %}
+
+{% macro loadLogo(idfile) %}
+    {% set url = 'Dinamic/Assets/Images/horizontal-logo.png' %}
+    {% if idfile > 0 %}
+        {% set attached = attachedFile(idfile) %}
+        {% if attached.filename is not empty %}
+            {% set url = attached.url('download') %}
+        {% endif %}
+    {% endif %}
+    <img class="card-img-top" src="{{ asset(url) }}" alt="{{ fsc.empresa.nombrecorto }}"/>
+{% endmacro loadLogo %}
