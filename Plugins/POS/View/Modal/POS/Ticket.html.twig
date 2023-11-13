@@ -89,7 +89,7 @@
 </div>
 <script id="ticketImpresion" type="text/template">
 	<div id="ticketPrint">
-		<div class="ticket" style="width:<%=it.items.text.anchoFormato %>%;">
+		<div class="ticket" style="width:<%=it.items.text.anchoFormato %>%;margin-top:30px;margin-bottom=30px;">
 
 			<% if(it.items.length === 0) { %>
 				<div class="flex flex-1 rounded-lg bg-blue-100 p-2 shadow-sm md:flex-row">
@@ -135,7 +135,7 @@
 										<b>ARTICULOS</b>
 									</th>
 									<th>
-										<b>P. UNITARIO</b>
+										<b>PRECIO</b>
 									</th>
 									<th>
 										<b>IMPORTE</b>
@@ -184,7 +184,7 @@
 								</tr>
 							<% }%>
 							<tr class="sup">
-								<td colspan="3" align="center">
+								<td colspan="4" align="center">
 									<b>Comprobante:
 										<%=it.items.text.codigo %></b>
 

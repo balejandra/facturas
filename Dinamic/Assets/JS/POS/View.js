@@ -1,73 +1,75 @@
 import Modals from "./components/Modals.js";
 import Templates from "./components/Templates.js";
-import {getElement} from "./Core.js";
+import { getElement } from "./Core.js";
 import * as Money from "./Money.js";
 
 export const cart = () => {
-    return Object.freeze(new Cart());
-}
+	return Object.freeze(new Cart());
+};
 
 export const checkout = () => {
-    return Object.freeze(new Checkout());
-}
+	return Object.freeze(new Checkout());
+};
 
 export const main = () => {
-    return Object.freeze(new Main());
-}
+	return Object.freeze(new Main());
+};
 
 export const modals = () => {
-    return Modals;
-}
+	return Modals;
+};
 
 export const templates = () => {
-    return Templates;
-}
+	return Templates;
+};
 
 const cartElements = {
-    cartTotalLabel: getElement('cartTotal'),
-    orderDiscountAmountLabel: getElement('orderDiscountAmountLabel'),
-    orderDiscountAmountInput: getElement('orderDiscountAmountInput'),
-    orderHoldButton: getElement('orderHoldButton'),
-    orderItemsNumberLabel: getElement('orderItemsNumber'),
-    orderNetoLabel: getElement('orderTotalNet'),
-    orderTaxesLabel: getElement('orderTaxes'),
-    orderTotalLabel: getElement('orderTotal'),
-    productQuantityInput: getElement('productQuantityInput')
-}
+	cartTotalLabel: getElement("cartTotal"),
+	orderDiscountAmountLabel: getElement("orderDiscountAmountLabel"),
+	orderDiscountAmountInput: getElement("orderDiscountAmountInput"),
+	orderHoldButton: getElement("orderHoldButton"),
+	orderItemsNumberLabel: getElement("orderItemsNumber"),
+	orderNetoLabel: getElement("orderTotalNet"),
+	orderTaxesLabel: getElement("orderTaxes"),
+	orderTotalLabel: getElement("orderTotal"),
+	productQuantityInput: getElement("productQuantityInput"),
+};
 
 class Cart {
-    cartTotalLabel = () => cartElements['cartTotalLabel'];
-    orderDiscountAmountLabel = () => cartElements['orderDiscountAmountLabel'];
-    orderDiscountAmountInput = () => cartElements['orderDiscountAmountInput'];
-    orderHoldButton = () => cartElements['orderHoldButton'];
-    orderItemsNumberLabel = () => cartElements['orderItemsNumberLabel'];
-    orderNetoLabel = () => cartElements['orderNetoLabel'];
-    productQuantityInput = () => cartElements['productQuantityInput'];
+	cartTotalLabel = () => cartElements["cartTotalLabel"];
+	orderDiscountAmountLabel = () => cartElements["orderDiscountAmountLabel"];
+	orderDiscountAmountInput = () => cartElements["orderDiscountAmountInput"];
+	orderHoldButton = () => cartElements["orderHoldButton"];
+	orderItemsNumberLabel = () => cartElements["orderItemsNumberLabel"];
+	orderNetoLabel = () => cartElements["orderNetoLabel"];
+	productQuantityInput = () => cartElements["productQuantityInput"];
 
-    showQuantityEditModal = ({index, cantidad}) => {
-        cart().productQuantityInput().dataset.index = index;
-        cart().productQuantityInput().value = cantidad;
-        modals().productQuantityEditModal().show();
-    };
+	showQuantityEditModal = ({ index, cantidad }) => {
+		cart().productQuantityInput().dataset.index = index;
+		cart().productQuantityInput().value = cantidad;
+		modals().productQuantityEditModal().show();
+	};
 
-    showProductEditModal = (product = {}) => {
-        templates().renderCartEdit(product);
-        modals().productEditModal().show();
-    };
+	showProductEditModal = (product = {}) => {
+		templates().renderCartEdit(product);
+		modals().productEditModal().show();
+	};
 
-    updateLinesView = (product = {}) => {
-        templates().renderCartEdit(product);
-    };
+	updateLinesView = (product = {}) => {
+		templates().renderCartEdit(product);
+	};
 
-    updateView = (data = {}) => {
-        cart().cartTotalLabel().textContent = Money.roundFixed(data.doc.total);
-        cart().orderItemsNumberLabel().textContent = Money.roundFixed(data.count);
-        cart().orderDiscountAmountInput().value = data.doc.dtopor1 || 0;
-        cart().orderDiscountAmountLabel().textContent = Money.roundFixed(data.getDiscountAmount());
-        cart().orderNetoLabel().textContent = Money.roundFixed(data.doc.neto);
+	updateView = (data = {}) => {
+		cart().cartTotalLabel().textContent = Money.roundFixed(data.doc.total);
+		cart().orderItemsNumberLabel().textContent = Money.roundFixed(data.count);
+		cart().orderDiscountAmountInput().value = data.doc.dtopor1 || 0;
+		cart().orderDiscountAmountLabel().textContent = Money.roundFixed(
+			data.getDiscountAmount()
+		);
+		cart().orderNetoLabel().textContent = Money.roundFixed(data.doc.neto);
 
-        templates().renderCartList(data);
-    };
+		templates().renderCartList(data);
+	};
 }
 
 const checkoutElements = {
@@ -121,16 +123,16 @@ class Checkout {
 }
 
 const mainElements = {
-    cashMovmentForm: getElement('cashMovmentForm'),
-    closeSessionForm: getElement('closeSessionForm'),
-    customerNameLabel: getElement('customerNameLabel'),
-    customerSearchBox: getElement('customerSearchBox'),
-    documentFieldList: document.querySelectorAll('[data-document-field]'),
-    documentNamelLabel: getElement('documentTypeLabel'),
-    mainContent: getElement('mainContent'),
-    newCustomerSaveButton: getElement('newCustomerSaveButton'),
-    productSearchBox: getElement('productSearchBox')
-}
+	cashMovmentForm: getElement("cashMovmentForm"),
+	closeSessionForm: getElement("closeSessionForm"),
+	customerNameLabel: getElement("customerNameLabel"),
+	customerSearchBox: getElement("customerSearchBox"),
+	documentFieldList: document.querySelectorAll("[data-document-field]"),
+	documentNamelLabel: getElement("documentTypeLabel"),
+	mainContent: getElement("mainContent"),
+	newCustomerSaveButton: getElement("newCustomerSaveButton"),
+	productSearchBox: getElement("productSearchBox"),
+};
 
 class Main {
 	customerNameLabel = () => mainElements["customerNameLabel"];
@@ -176,7 +178,7 @@ class Main {
 		console.log(data);
 
 		templates().renderticketimpresion({ items: data });
-			// Obtener el contenido del div que deseas imprimir
+		// Obtener el contenido del div que deseas imprimir
 		let contenidoDiv = document.getElementById("ticketPrint").innerHTML;
 
 		// Abrir la ventana de impresión y escribir el contenido del div en ella
@@ -192,7 +194,7 @@ class Main {
 
 		// Imprimir la ventana de impresión
 		ventanaImpresion.print();
-		ventanaImpresion.close();
+		//ventanaImpresion.close();
 		modals().ticketImpresionModal().hide();
 	};
 	showPausedOrdersModal = function (data) {
@@ -213,76 +215,81 @@ class Main {
  * @param {HTMLElement} element
  */
 export function toggleCollapse(element) {
-    const target = getElement(element.dataset.target);
-    const elementOntoggle = getElement(element.dataset.ontoggle);
+	const target = getElement(element.dataset.target);
+	const elementOntoggle = getElement(element.dataset.ontoggle);
 
-    target.classList.toggle('hidden');
+	target.classList.toggle("hidden");
 
-    if (elementOntoggle) {
-        elementOntoggle.classList.toggle('hidden');
-    }
+	if (elementOntoggle) {
+		elementOntoggle.classList.toggle("hidden");
+	}
 }
 
 /**
  * @param {HTMLElement} element
  */
-const toggle = element => {
-    let target = getElement(element.dataset.target);
+const toggle = (element) => {
+	let target = getElement(element.dataset.target);
 
-    if (!target) return;
+	if (!target) return;
 
-    target.classList.toggle('hidden');
+	target.classList.toggle("hidden");
 
-    if (element.dataset.ontoggle) {
-        getElement(element.dataset.ontoggle).classList.toggle('hidden');
-    }
+	if (element.dataset.ontoggle) {
+		getElement(element.dataset.ontoggle).classList.toggle("hidden");
+	}
 };
 
 const updateDocumentFieldValue = (data = {}, element) => {
-    const field = element.getAttribute('data-document-field');
-    const format = element.getAttribute('data-format');
+	const field = element.getAttribute("data-document-field");
+	const format = element.getAttribute("data-format");
 
-    switch (element.type) {
-        case 'text':
-        case 'textarea':
-            element.value = data[field];
-            break
-        case 'number':
-        case 'decimal':
-            element.value = Money.roundFixed(data[field]);
-            break;
-        case'checkbox':
-            element.checked = data[field] === true || data[field] === "true";
-            break;
-        default:
-            element.textContent = (format === 'number') ? Money.roundFixed(data[field]): data[field];
-    }
-}
+	switch (element.type) {
+		case "text":
+		case "textarea":
+			element.value = data[field];
+			break;
+		case "number":
+		case "decimal":
+			element.value = Money.roundFixed(data[field]);
+			break;
+		case "checkbox":
+			element.checked = data[field] === true || data[field] === "true";
+			break;
+		default:
+			element.textContent =
+				format === "number" ? Money.roundFixed(data[field]) : data[field];
+	}
+};
 
 /**
  * @param {HTMLElement} element
  */
-const eventHandler = element => {
-    const target = getElement(element.dataset.target);
+const eventHandler = (element) => {
+	const target = getElement(element.dataset.target);
 
-    switch (element.dataset.toggle) {
-        case 'modal':
-            modals().toggleModal(target)
-            break;
-        case 'collapse':
-            toggleCollapse(element);
-            break;
-        default:
-            toggle(element);
-    }
+	switch (element.dataset.toggle) {
+		case "modal":
+			modals().toggleModal(target);
+			break;
+		case "collapse":
+			toggleCollapse(element);
+			break;
+		default:
+			toggle(element);
+	}
 };
 
-document.addEventListener('click', function (event) {
-    if (event.target.attributes.getNamedItem('data-toggle')) {
-        eventHandler(event.target);
-        event.stopPropagation();
-    }
-}, false);
+document.addEventListener(
+	"click",
+	function (event) {
+		if (event.target.attributes.getNamedItem("data-toggle")) {
+			eventHandler(event.target);
+			event.stopPropagation();
+		}
+	},
+	false
+);
 
 /*window.addEventListener("click", function (event) {
     let menu = getElement('navbarMenu');
