@@ -14,6 +14,7 @@ use FacturaScripts\Dinamic\Model\Familia;
 use FacturaScripts\Dinamic\Model\FormaPago;
 use FacturaScripts\Dinamic\Model\FormatoTicket;
 use FacturaScripts\Dinamic\Model\TerminalPuntoVenta;
+use FacturaScripts\Plugins\POS\Model\TasasCambio;
 use FacturaScripts\Plugins\POS\Model\TipoDocumentoPuntoVenta;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
@@ -113,6 +114,17 @@ trait PointOfSaleTrait
         $customer->loadFromCode($this->getTerminal()->codcliente);
 
         return $customer;
+    }
+
+    /**
+     * @return TasasCambio
+     */
+    public function getTasaCambio(): TasasCambio
+    {
+        $tasa = new TasasCambio();
+        $tasa->loadFromCode($this->getTerminal()->idtasacambio);
+
+        return $tasa;
     }
 
     /**

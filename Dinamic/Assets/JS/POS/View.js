@@ -75,8 +75,11 @@ class Cart {
 const checkoutElements = {
 	confirmOrderButton: getElement("orderSaveButton"),
 	changeAmountLabel: getElement("checkoutChangeAmount"),
+	changeAmountExchangeLabel: getElement("checkoutChangeAmountExchange"),
 	tenderedAmountLabel: getElement("checkoutTenderedAmount"),
+	tenderedAmountExchangeLabel: getElement("checkoutTenderedAmountExchange"),
 	totalAmountLabel: getElement("checkoutTotal"),
+	totalAmountExchangeLabel: getElement("checkoutTotalExchange"),
 	paymentApplyButton: getElement("paymentApplyButton"),
 	paymentApplyInput: getElement("paymentApplyInput"),
 	paymentReferenciaInput: getElement("paymentReferenciaInput"),
@@ -85,8 +88,11 @@ const checkoutElements = {
 class Checkout {
 	confirmOrderButton = () => checkoutElements["confirmOrderButton"];
 	changeAmountLabel = () => checkoutElements["changeAmountLabel"];
+	changeAmountExchangeLabel = () =>checkoutElements["changeAmountExchangeLabel"];
 	tenderedAmountLabel = () => checkoutElements["tenderedAmountLabel"];
+	tenderedAmountExchangeLabel = () =>checkoutElements["tenderedAmountExchangeLabel"];
 	totalAmountLabel = () => checkoutElements["totalAmountLabel"];
+	totalAmountExchangeLabel = () => checkoutElements["totalAmountExchangeLabel"];
 	paymentApplyButton = () => checkoutElements["paymentApplyButton"];
 	paymentAmountInput = () => checkoutElements["paymentApplyInput"];
 	paymentReferenciaInput = () => checkoutElements["paymentReferenciaInput"];
@@ -107,8 +113,17 @@ class Checkout {
 
 	updateView = (data) => {
 		checkout().totalAmountLabel().textContent = data.total;
+		checkout().totalAmountExchangeLabel().textContent = Money.roundFixed(
+			data.total * AppSettings.tasacambio.importetasa
+		);
 		checkout().tenderedAmountLabel().textContent = data.getPaymentsTotal();
+		checkout().tenderedAmountExchangeLabel().textContent = Money.roundFixed(
+			data.getPaymentsTotal() * AppSettings.tasacambio.importetasa
+		);
 		checkout().changeAmountLabel().textContent = data.change;
+		checkout().changeAmountExchangeLabel().textContent = Money.roundFixed(
+			data.change * AppSettings.tasacambio.importetasa
+		);
 
 		templates().renderPaymentList(data);
 
