@@ -177,6 +177,7 @@ class SalesTicket extends AbstractTicketBuilder
     {
         $company = $this->document->getCompany();
         $data = [
+            'tipo_ticket' => 'sale_ticket',
             'nombrecorto' => $company->nombrecorto,
             'direccion' => $company->direccion,
             'telefono1' => $company->telefono1,
@@ -227,7 +228,7 @@ class SalesTicket extends AbstractTicketBuilder
                 $data['lines'][] = $lineData;
             }
             $data['totalArticulos'] = $counter;
-        
+
         $this->printer->getBuffer();
         return $data;
     }

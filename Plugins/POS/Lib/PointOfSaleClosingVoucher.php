@@ -76,10 +76,12 @@ class PointOfSaleClosingVoucher extends AbstractTicketBuilder
     public function getDataAsArray(): array
     {
         $data = [
+            'tipo_ticket'=> 'closing_ticket',
             'nombrecorto' => $this->company->nombrecorto,
             'direccion' => $this->company->direccion,
             'telefono1' => $this->company->telefono1,
             'cifnif' => $this->company->cifnif,
+            'codigo' =>  $this->session->getID(),
             'cierre_desde' => $this->session->fechainicio,
             'cierre_hasta' => $this->session->fechafin,
             'saldo_inicial' => $this->session->saldoinicial,
@@ -88,7 +90,7 @@ class PointOfSaleClosingVoucher extends AbstractTicketBuilder
             'anchoFormato' => $this->formato->ancho,
             'lines' => [],
         ];
-
+       
         foreach ($this->session->getPaymentsAmount() as $payment) {
             $this->printer->textKeyValue(strtoupper($payment['descripcion']), $payment['total']);
         }

@@ -327,8 +327,8 @@ trait PointOfSaleTrait
     protected function printClosingVoucher()
     {
         $message = self::printCashupTicket($this->session->getSession(), $this->empresa, $this->getVoucherFormat());
-
-        $this->toolBox()->log()->info($message);
+        return $message;
+        //$this->toolBox()->log()->info($message);
     }
 
     /**

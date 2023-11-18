@@ -121,8 +121,12 @@ class POS extends Controller
                 $this->reprintPausedOrder();
                 return false;
 
+            case 'close-cash':
+                $this->closeCash();
+                return false;
+
             default:
-                $this->setResponse('Funcion no encontrada');
+                $this->setResponse('Funcion no encontrada Action');
                 return true;
         }
     }
@@ -169,7 +173,7 @@ class POS extends Controller
                 return true;
 
             default:
-                $this->setResponse('Funcion no encontrada');
+                $this->setResponse('Funcion no encontrada CartQueryAction');
                 return false;
         }
     }
@@ -255,12 +259,26 @@ class POS extends Controller
     /**
      * Close current user POS session.
      */
+    protected function closeCash()
+    {
+        //var_dump($this->request->request);
+        $cash = $this->request->request->get('cash');
+
+        if ($this->session->closeCash($cash)) {
+            $voucher = $this->printClosingVoucher();
+            $this->setResponse($voucher);
+        }
+    }
+
+    /**
+     * Close current user POS session.
+     */
     protected function closeSession()
     {
         $cash = $this->request->request->get('cash');
 
         if ($this->session->closeSession($cash)) {
-            $this->printClosingVoucher();
+            // $this->printClosingVoucher();
         }
     }
 
@@ -372,7 +390,7 @@ class POS extends Controller
         $movment->total = $amount ?? 0;
 
         if ($movment->save()) {
-            self::toolBox()::log()->info('Movimiento cuardado correctamente.');
+            self::toolBox()::log()->info('Movimiento guardado correctamente.');
         }
 
         $this->buildResponse();
