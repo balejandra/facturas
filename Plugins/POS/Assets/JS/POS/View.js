@@ -137,6 +137,7 @@ const mainElements = {
 class Main {
 	customerNameLabel = () => mainElements["customerNameLabel"];
 	customerSearchBox = () => mainElements["customerSearchBox"];
+	ticketPrintingArea = () => mainElements["ticketPrintingArea"];
 	cashMovmentForm = () => mainElements["cashMovmentForm"];
 	closeSessionForm = () => mainElements["closeSessionForm"];
 	productSearchBox = () => mainElements["productSearchBox"];

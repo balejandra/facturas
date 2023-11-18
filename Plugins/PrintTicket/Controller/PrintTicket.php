@@ -86,7 +86,8 @@ class PrintTicket extends Controller
                 $this->response->setContent(json_encode($this->getFormatFromDocument()));
                 return true;
             case 'print-document':
-                $this->newPrintJob();
+                $ticket=$this->newPrintJob();
+                $this->response->setContent(json_encode($ticket));
                 return true;
             default:
                 return false;
@@ -119,7 +120,7 @@ class PrintTicket extends Controller
     /**
      * @return void
      */
-    protected function newPrintJob(): void
+    protected function newPrintJob()
     {
         $documentCode = $this->request->request->get('codigo');
         $formatCode = $this->request->request->get('formato');
@@ -135,9 +136,10 @@ class PrintTicket extends Controller
         $ticketBuilder = new SalesTicket($document, $ticketFormat);
 
         $salesTicket = new PrintingService($ticketBuilder);
-        $salesTicket->savePrintJob();
+        $ticket=$salesTicket->savePrintJob();
+        return $ticket;
 
-        echo $salesTicket->getResponse();
+      //  echo $salesTicket->getResponse();
     }
 
     protected function sendPrintJob($modelName, $code, bool $gift): void
