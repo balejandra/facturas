@@ -63,7 +63,7 @@ async function orderSaveAction() {
 	if (Cart.lines.length < 1) return;
 	let ticket = await Order.saveRequest(Cart, Checkout.payments);
 	Cart.update(ticket);
-	View.main().showTicketPrint(ticket);
+	//View.main().showTicketPrint(ticket);
 	Checkout.clear();
 
 	Cart.setDocumentType(AppSettings.document.code, AppSettings.document.serie);
